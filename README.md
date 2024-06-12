@@ -1,10 +1,104 @@
-# Deploy a Web Application on AWS with Docker, Load Balancer, Amazon ECR, and ECS. 
+Here’s a step-by-step guide to deploy a web application to Amazon ECS using EC2, Docker, ECR, and an Application Load Balancer:
 
-I demonstrated how to deploy a web application to Amazon Elastic Container Service (ECS) using various tools such as EC2, Docker, Elastic Container Registry (ECR), Application Load Balancer in AWS.
+### 1. Create an EC2 Instance and Install Docker
+1. **Launch an EC2 Instance**:
+   - Open the EC2 console.
+   - Click on "Launch Instance".
+   - Select an Amazon Machine Image (AMI) (e.g., Amazon Linux 2).
+   - Choose an instance type (e.g., t2.micro for the free tier).
+   - Configure instance details, add storage, and configure security group to allow necessary ports (e.g., SSH (22), HTTP (80), HTTPS (443)).
+   - Review and launch the instance.
 
-1. Create an EC2 instance and install Docker on it.
-2. Containerize the web application by using Docker and pushing the container image to Amazon Elastic Container Registry (ECR).
-3. Create an ECS cluster, ECS Service and Task Definition that specifies how the container should be run.
-4. Create a load balancer that distributes traffic evenly across the instances in the ECS cluster.
-5. Configure the load balancer to use the ECS task definition and set up health checks to ensure that traffic is only routed to healthy instances.
-6. Confirm that the web application is properly deployed to Amazon ECS cluster via DNS name of the application load balancer. 
+2. **Connect to the EC2 Instance**:
+   - Use SSH to connect to your instance.
+   ```bash
+   ssh -i your-key-pair.pem ec2-user@your-ec2-public-ip
+   ```
+
+3. **Install Docker**:
+   - Update the package index and install Docker.
+   ```bash
+   sudo yum update -y
+   sudo amazon-linux-extras install docker
+   sudo service docker start
+   sudo usermod -a -G docker ec2-user
+   ```
+
+4. **Log out and log back in to apply Docker group membership**:
+   ```bash
+   exit
+   ssh -i your-key-pair.pem ec2-user@your-ec2-public-ip
+   ```
+
+### 2. Containerize the Web Application and Push to ECR
+1. **Create an ECR Repository**:
+   - Open the Amazon ECR console.
+   - Click on "Create repository".
+   - Provide a name for your repository and create it.
+
+2. **Build and Tag Docker Image**:
+   - Create a `Dockerfile` for your web application.(please see Dockerfile in Web-application for details)
+   - Build and tag your Docker image.
+   ```bash
+   docker build -t your-app .
+   docker tag your-app:latest your-aws-account-id.dkr.ecr.your-region.amazonaws.com/your-repository-name:latest
+   ```
+
+3. **Push the Docker Image to ECR**:
+   - Authenticate Docker to your ECR registry.
+   ```bash
+   aws ecr get-login-password --region your-region | docker login --username AWS --password-stdin your-aws-account-id.dkr.ecr.your-region.amazonaws.com
+   ```
+   - Push the image to ECR.
+   ```bash
+   docker push your-aws-account-id.dkr.ecr.your-region.amazonaws.com/your-repository-name:latest
+   ```
+
+### 3. Create an ECS Cluster, Service, and Task Definition
+1. **Create an ECS Cluster**:
+   - Open the Amazon ECS console.
+   - Click on "Create Cluster".
+   - Choose "EC2 Linux + Networking".
+   - Configure your cluster and create it.
+
+2. **Create a Task Definition**:
+   - In the ECS console, click on "Task Definitions".
+   - Click on "Create new Task Definition".
+   - Select "EC2" as the launch type.
+   - Configure your task definition by adding the container details (e.g., image URI from ECR, memory, CPU, port mappings).
+   - Create the task definition.
+
+3. **Create an ECS Service**:
+   - In the ECS console, go to your cluster.
+   - Click on "Create" under "Services".
+   - Choose "EC2" as the launch type.
+   - Configure the service (e.g., service name, number of tasks).
+   - Select the task definition created earlier.
+   - Create the service.
+
+### 4. Create an Application Load Balancer
+1. **Create a Load Balancer**:
+   - Open the EC2 console and go to "Load Balancers".
+   - Click on "Create Load Balancer".
+   - Select "Application Load Balancer".
+   - Configure the load balancer settings (e.g., name, scheme, listeners, availability zones).
+   - Create a target group.
+
+2. **Register Targets**:
+   - Register the ECS instances in your target group.
+   - Set up health checks.
+
+3. **Configure Load Balancer with ECS**:
+   - In the ECS console, update the ECS service to use the load balancer.
+   - Specify the load balancer and target group in the service settings.
+
+### 5. Verify the Deployment
+1. **Get the DNS Name**:
+   - Go to the EC2 console and find your load balancer.
+   - Copy the DNS name of the load balancer.
+
+2. **Access Your Application**:
+   - Open a web browser and navigate to the load balancer’s DNS name.
+   - Verify that your web application is accessible.
+
+This guide covers the basic steps required to deploy a web application on Amazon ECS using the specified tools. Ensure that you have the necessary permissions and configurations set up in your AWS environment for seamless deployment.
