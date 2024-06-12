@@ -49,27 +49,7 @@ Of course! Here is the updated guide with the steps to create a directory, navig
    ```bash
    vi Dockerfile
    ```
-   - Add the necessary instructions to the `Dockerfile`. Here is an example:
-   ```Dockerfile
-   # Use an official Node.js runtime as a parent image
-   FROM node:14
-
-   # Set the working directory
-   WORKDIR /usr/src/app
-
-   # Copy package.json and install dependencies
-   COPY package*.json ./
-   RUN npm install
-
-   # Copy the rest of the application code
-   COPY . .
-
-   # Expose the port the app runs on
-   EXPOSE 8080
-
-   # Command to run the app
-   CMD ["node", "app.js"]
-   ```
+   - please see link for Dockerfile details: https://github.com/Guuruuu/Web-application/blob/main/Dockerfile
 
 3. **Build and Tag Docker Image**:
    - Build and tag your Docker image.
