@@ -37,7 +37,7 @@ Here’s a step-by-step guide to deploy a web application to Amazon ECS using EC
    - Provide a name for your repository and create it.
 
 2. **Build and Tag Docker Image**:
-   - Create a `Dockerfile` for your web application.(please see Dockerfile in Web-application for details)
+   - Create a `Dockerfile` for your web application. (Please see Dockerfile in Web-application for details)
    - Build and tag your Docker image.
    ```bash
    docker build -t your-app .
