@@ -1,4 +1,30 @@
-Here’s a step-by-step guide to deploy a web application to Amazon ECS using EC2, Docker, ECR, and an Application Load Balancer:
+Certainly! Here's the revised step for creating an ECS Cluster, Service, and Task Definition using Fargate:
+
+### 3. Create an ECS Cluster, Service, and Task Definition Using Fargate
+1. **Create an ECS Cluster**:
+   - Open the Amazon ECS console.
+   - Click on "Create Cluster".
+   - Choose "Networking only (Fargate)".
+   - Configure your cluster and create it.
+
+2. **Create a Task Definition**:
+   - In the ECS console, click on "Task Definitions".
+   - Click on "Create new Task Definition".
+   - Select "Fargate" as the launch type.
+   - Configure your task definition by adding the container details (e.g., image URI from ECR, memory, CPU, port mappings).
+   - Create the task definition.
+
+3. **Create an ECS Service**:
+   - In the ECS console, go to your cluster.
+   - Click on "Create" under "Services".
+   - Choose "Fargate" as the launch type.
+   - Configure the service (e.g., service name, number of tasks).
+   - Select the task definition created earlier.
+   - Create the service.
+
+---
+
+Here is the complete guide with the updated step:
 
 ### 1. Create an EC2 Instance and Install Docker
 1. **Launch an EC2 Instance**:
@@ -30,8 +56,6 @@ Here’s a step-by-step guide to deploy a web application to Amazon ECS using EC
    ssh -i your-key-pair.pem ec2-user@your-ec2-public-ip
    ```
 
-Of course! Here is the updated guide with the steps to create a directory, navigate to it, create a Dockerfile, and then build the container:
-
 ### 2. Containerize the Web Application and Push to ECR
 1. **Create an ECR Repository**:
    - Open the Amazon ECR console.
@@ -49,7 +73,7 @@ Of course! Here is the updated guide with the steps to create a directory, navig
    ```bash
    vi Dockerfile
    ```
-   - Please see link for Dockerfile details: https://github.com/Guuruuu/Web-Application-Project/blob/main/Dockerfile
+   - Please see [this link](https://github.com/Guuruuu/Web-Application-Project/blob/main/Dockerfile) for Dockerfile details.
 
 3. **Build and Tag Docker Image**:
    - Build and tag your Docker image.
@@ -80,24 +104,24 @@ Of course! Here is the updated guide with the steps to create a directory, navig
 
 By following these steps, you will create a directory for your web application, write a Dockerfile, build and test your Docker container locally on the EC2 instance, and finally push the container image to Amazon ECR.
 
-### 3. Create an ECS Cluster, Service, and Task Definition
+### 3. Create an ECS Cluster, Service, and Task Definition Using Fargate
 1. **Create an ECS Cluster**:
    - Open the Amazon ECS console.
    - Click on "Create Cluster".
-   - Choose "EC2 Linux + Networking".
+   - Choose "Networking only (Fargate)".
    - Configure your cluster and create it.
 
 2. **Create a Task Definition**:
    - In the ECS console, click on "Task Definitions".
    - Click on "Create new Task Definition".
-   - Select "EC2" as the launch type.
+   - Select "Fargate" as the launch type.
    - Configure your task definition by adding the container details (e.g., image URI from ECR, memory, CPU, port mappings).
    - Create the task definition.
 
 3. **Create an ECS Service**:
    - In the ECS console, go to your cluster.
    - Click on "Create" under "Services".
-   - Choose "EC2" as the launch type.
+   - Choose "Fargate" as the launch type.
    - Configure the service (e.g., service name, number of tasks).
    - Select the task definition created earlier.
    - Create the service.
