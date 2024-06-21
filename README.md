@@ -1,29 +1,3 @@
-Certainly! Here's the revised step for creating an ECS Cluster, Service, and Task Definition using Fargate:
-
-### 3. Create an ECS Cluster, Service, and Task Definition Using Fargate
-1. **Create an ECS Cluster**:
-   - Open the Amazon ECS console.
-   - Click on "Create Cluster".
-   - Choose "Networking only (Fargate)".
-   - Configure your cluster and create it.
-
-2. **Create a Task Definition**:
-   - In the ECS console, click on "Task Definitions".
-   - Click on "Create new Task Definition".
-   - Select "Fargate" as the launch type.
-   - Configure your task definition by adding the container details (e.g., image URI from ECR, memory, CPU, port mappings).
-   - Create the task definition.
-
-3. **Create an ECS Service**:
-   - In the ECS console, go to your cluster.
-   - Click on "Create" under "Services".
-   - Choose "Fargate" as the launch type.
-   - Configure the service (e.g., service name, number of tasks).
-   - Select the task definition created earlier.
-   - Create the service.
-
----
-
 Here is the complete guide with the updated step:
 
 ### 1. Create an EC2 Instance and Install Docker
